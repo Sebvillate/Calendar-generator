@@ -15,45 +15,51 @@
 ##Input: Length of month and first day of the month
 ##----------------------------------------------------------------------------------------------------------
 
-while True:
-    #Checks for a valid input for length of month and repeats loop until valid input is provided.
-    #When a valid input is entered, it is returned to the LengthOfMonth variable in the program
-    def GetIntInput(prompt,MinNumber,MaxNumber):
-        n=0
-        while MaxNumber<=n or n<MinNumber:
-            n=int(float(input(prompt)))
-            if MaxNumber>n and n>=MinNumber:
-                return n
-            else:
-                print()
-                print("Input is invalid, please enter a valid month length")
 
-    # Returns a different value depending on the first day of the month entered. This is done to
-    #Allign the number 1 on the calendar with the day the month starts on, and to print blank spaces
-    #Earlier in the week
-    def DayOfWeekCheck(prompt):
-        ValidDays=['sun','mon','tue','wed','thr','fri','sat']
-        DayOfWeek=None
-        while DayOfWeek not in ValidDays:
-            DayOfWeek=input(prompt).lower()
-            
-            if DayOfWeek=="mon":
-                return 0
-            elif DayOfWeek=="tue":
-                return -1
-            elif DayOfWeek=="wed":
-                return -2
-            elif DayOfWeek=="thr":
-                return -3
-            elif DayOfWeek=="fri":
-                return -4
-            elif DayOfWeek=="sat":
-                return -5
-            elif DayOfWeek=="sun":
-                return 1
+#Checks for a valid input for length of month and repeats loop until valid input is provided.
+#When a valid input is entered, it is returned to the LengthOfMonth variable in the program
+def GetIntInput(prompt,MinNumber,MaxNumber):
+    isInvalid=True
+    n=input(prompt)
+    while isInvalid:
+        if n.isdecimal():
+            n=int(n)
+            if MaxNumber>n and n>=MinNumber:
+                isInvalid=False
             else:
-                print("Invalid input, please enter a day of the week")
+                print("\nInput is invalid, please enter a number between",MinNumber,"and",MaxNumber-1,"inclusive\n")
+                n=input(prompt)
+        else:
+            print("\nAnswer must be an integer\n")
+            n=input(prompt)
+    return n
+
+# Returns a different value depending on the first day of the month entered. This is done to
+#Allign the number 1 on the calendar with the day the month starts on, and to print blank spaces
+#Earlier in the week
+def DayOfWeekCheck(prompt):
+    ValidDays=['sun','mon','tue','wed','thr','fri','sat']
+    DayOfWeek=None
+    while DayOfWeek not in ValidDays:
+        DayOfWeek=input(prompt).lower()
         
+        if DayOfWeek=="mon":
+            return 0
+        elif DayOfWeek=="tue":
+            return -1
+        elif DayOfWeek=="wed":
+            return -2
+        elif DayOfWeek=="thr":
+            return -3
+        elif DayOfWeek=="fri":
+            return -4
+        elif DayOfWeek=="sat":
+            return -5
+        elif DayOfWeek=="sun":
+            return 1
+        else:
+            print("Invalid input, please enter a day of the week")
+    
 #LengthOfMonth is assigned the valid month length returned by the MonthLengthCheck function
 LengthOfMonth=GetIntInput("How many days are there in the month?: ",28,32)
 #dow is assigned the integer value returned by the DayOfWeekCheck function
@@ -62,15 +68,15 @@ print()
 print('  SUN  MON  TUE  WED  THR  FRI  SAT\n------------------------------------')
 #Loop repeats 6 times in case of a month that the max length of 6 partial weeks
 for week in range(6):
-    #Loop repeats once for each day of the week
+#Loop repeats once for each day of the week
     for day in range(7):
-        #dow is only printed if it is a positive integer between 1 and 31
+    #dow is only printed if it is a positive integer between 1 and 31
         if dow>0 and dow<LengthOfMonth + 1:
             print(format(dow,'5'),end='')
-        #If dow<1 and dow>31, a 5 character space is printed instead
+    #If dow<1 and dow>31, a 5 character space is printed instead
         else:
             print("     ",end="")
-        #Each time dow is printed, it is increased by 1 to print the next day of the month
+    #Each time dow is printed, it is increased by 1 to print the next day of the month
         dow+=1
     print()
 print("------------------------------------")
